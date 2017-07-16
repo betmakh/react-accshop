@@ -1,0 +1,28 @@
+{
+  "name": "react-accshop",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/betmakh/react-accshop.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/betmakh/react-accshop/issues"
+  },
+  "homepage": "https://github.com/betmakh/react-accshop#readme",
+  "description": "",
+  "dependencies": {
+    "immutable": "^3.8.1",
+    "isomorphic-fetch": "^2.2.1",
+    "react": "^15.6.1",
+    "redux": "^3.7.2",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.2.0",
+    "webpack": "^3.3.0"
+  }
+}
