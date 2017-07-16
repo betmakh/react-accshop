@@ -17,6 +17,7 @@
   "homepage": "https://github.com/betmakh/react-accshop#readme",
   "description": "",
   "dependencies": {
+    "babel-loader": "^7.1.1",
     "immutable": "^3.8.1",
     "isomorphic-fetch": "^2.2.1",
     "react": "^15.6.1",
