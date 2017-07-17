@@ -22,24 +22,26 @@ const ActionsMap = {
         })
     },
     [FETCH_ACCOUNT_ERROR]: function(state, action) {
-        return state.merge(
+        return state.merge({
             [action.id]: {
                 fetching: false,
                 error
-            });
+            }
+        });
     },
     [FETCH_ACCOUNT_SUCCESS]: function(state, action) {
-        return state.merge(
+        return state.merge({
             [action.id]: {
                 ...data,
                 fetching: false
-            })
+            }
+        })
     }
 }
 
 function accountsReducer(state = Map({}), action) {
     var fn = ActionsMap[action.type];
-    return fn ? fn(state, action);
+    return fn ? fn(state, action) : state;
 }
 
 export default function(state = initialState, action) {

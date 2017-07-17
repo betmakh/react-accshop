@@ -3,16 +3,15 @@ var path = require('path');
 module.exports = {
     entry: './src/index.js',
     output: {
-        filename: 'app-[hash].js',
+        filename: 'app.js',
         path: path.resolve(__dirname, 'dist')
     },
+    // watch: true,
     module: {
         rules: [{
-            test: /\.(js|jsx)$/,
+            test: /\.js$|\.jsx$/,
             exclude: /node_modules/,
-            use: [
-                'babel-loader',
-            ]
+            loader: "babel-loader"
         }]
     }
 };
