@@ -9,14 +9,15 @@ export function fetchAccountStart(id) {
 	return {
 		type: FETCH_ACCOUNT_START,
 		id
-	}
+	};
 }
 export function fetchAccountSuccess(id, data) {
+    console.log("successdata", data);
 	return {
 		type: FETCH_ACCOUNT_SUCCESS,
 		id,
 		data
-	}
+	};
 }
 
 export function fetchAccountError(id, error) {
@@ -24,14 +25,17 @@ export function fetchAccountError(id, error) {
 		error,
 		type: FETCH_ACCOUNT_ERROR,
 		id
-	}
+	};
 }
 
 export function fetchAccount(id) {
 	return function(dispatch) {
 		dispatch(fetchAccountStart(id));
 		fetch(urls.account + id).then(resp => resp.json(), error => {
-			dispatch(fetchAccountError(id, error))
-		}).then(data => dispatch(fetchAccountSuccess(id, data)));
-	}
+			dispatch(fetchAccountError(id, error));
+		}).then(data => {
+			dispatch(fetchAccountSuccess(id, data));
+		console.log("data", data);
+		});
+	};
 }

@@ -19,7 +19,7 @@ const ActionsMap = {
             [action.id]: {
                 fetching: true
             }
-        })
+        });
     },
     [FETCH_ACCOUNT_ERROR]: function(state, action) {
         return state.merge({
@@ -32,7 +32,7 @@ const ActionsMap = {
     [FETCH_ACCOUNT_SUCCESS]: function(state, action) {
         return state.merge({
             [action.id]: {
-                ...data,
+                ...action.data,
                 fetching: false
             }
         })
@@ -42,6 +42,7 @@ const ActionsMap = {
 function accountsReducer(state = Map({}), action) {
     var fn = ActionsMap[action.type];
     return fn ? fn(state, action) : state;
+
 }
 
 export default function(state = initialState, action) {
