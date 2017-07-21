@@ -11,7 +11,7 @@ const initialState = Map({
     entities: {
         accounts: {}
     }
-})
+});
 
 const ActionsMap = {
     [FETCH_ACCOUNT_START]: function(state, action) {
@@ -46,7 +46,7 @@ function accountsReducer(state = Map({}), action) {
 }
 
 export default function(state = initialState, action) {
-    return Map({
+    return state.merge({
         entities: {
             accounts: accountsReducer(state.getIn(['entities', 'accounts']), action)
         }

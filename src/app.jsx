@@ -7,6 +7,7 @@ import thunk from 'redux-thunk';
 
 import rootReducer from "./reducers/rootReducer.js";
 import { fetchAccount } from "./actions/actions.js";
+import AccountComponent from "./components/AccountListItem.jsx";
 
 const loggerMiddleware = createLogger();
 
@@ -17,7 +18,10 @@ let store = createStore(rootReducer, applyMiddleware(
 console.log("store", store.getState().toObject());
 console.log("store", store.dispatch(fetchAccount('56ce5703634d17d06f28538a')));
 
-ReactDOM.render( <h1> hello </h1>,
+ReactDOM.render( 
+	<Provider store={store}>
+	 	<AccountComponent />
+  	</Provider>,
   document.getElementById('root'));
 
 export default store;
