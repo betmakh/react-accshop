@@ -12,7 +12,7 @@ export function fetchAccountStart(id) {
 	};
 }
 export function fetchAccountSuccess(id, data) {
-    console.log("successdata", data);
+    console.log("data", data);
 	return {
 		type: FETCH_ACCOUNT_SUCCESS,
 		id,
@@ -28,7 +28,8 @@ export function fetchAccountError(id, error) {
 	};
 }
 
-export function fetchAccount(id) {
+export function fetchAccount(id = '') {
+    console.log("fetchid", id);
 	return function(dispatch) {
 		dispatch(fetchAccountStart(id));
 		fetch(urls.account + id).then(resp => resp.json(), error => {

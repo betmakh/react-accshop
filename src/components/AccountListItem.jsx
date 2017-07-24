@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux'
 import { fetchAccount } from '../actions/actions.js'
+import AccountComponent from './AccountPreview.jsx';
 
 var acc = ({account, click}) => {
 	console.log("acc", account);
@@ -27,7 +28,7 @@ const mapDispatchToProps = (dispatch) => {
 const FilterLink = connect(
   mapStateToProps,
   mapDispatchToProps
-)(acc)
+)(AccountComponent)
 
 export default FilterLink;
 

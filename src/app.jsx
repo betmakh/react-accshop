@@ -8,12 +8,13 @@ import thunk from 'redux-thunk';
 import rootReducer from "./reducers/rootReducer.js";
 import { fetchAccount } from "./actions/actions.js";
 import AccountComponent from "./components/AccountListItem.jsx";
+import logger from "./middleware/logger.js";
 
-const loggerMiddleware = createLogger();
+// const loggerMiddleware = createLogger();
 
 let store = createStore(rootReducer, applyMiddleware(
   thunk, // lets us dispatch() functions
-  loggerMiddleware // neat middleware that logs actions
+  logger // neat middleware that logs actions
 ));
 console.log("store", store.getState().toObject());
 console.log("store", store.dispatch(fetchAccount('56ce5703634d17d06f28538a')));
