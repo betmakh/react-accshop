@@ -12,8 +12,12 @@ var acc = ({account, click}) => {
 }
 
 const mapStateToProps = (state) => {
+    console.log("state", state.toObject());
+    console.log("state", state.getIn(['entities']).toObject());
+    console.log("stateAccs", state.getIn(['entities', 'accounts']).toObject());
   return {
     account: state.getIn(['entities', 'accounts', '56ce5703634d17d06f28538a']).toObject()
+
   }
 }
 

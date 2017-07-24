@@ -15,27 +15,46 @@ const initialState = Map({
 
 const ActionsMap = {
   [FETCH_ACCOUNT_START]: function(state, action) {
-    return state.mergeDeep({
-      [action.id]: {
-        fetching: true
-      }
-    });
+    if (action.id) {
+      state = state.setIn([action.id, 'fetching'], true)
+    } else {
+      state = state.set('fetching', true);
+    }
+    console.log("state", state.toObject());
+    return state;
   },
   [FETCH_ACCOUNT_ERROR]: function(state, action) {
-    return state.merge({
-      [action.id]: {
-        fetching: false,
-        error
-      }
-    });
+    var updateObject = {
+      fetching: false,
+      error
+    }
+    if (action.id) {
+      state = state.merge(updateObject)
+    } else {
+      state = state.merge({
+        [action.id]: updateObject
+      })
+    }
+    return state;
   },
   [FETCH_ACCOUNT_SUCCESS]: function(state, action) {
-    return state.merge({
-      [action.id]: {
-        ...action.data,
-        fetching: false
-      }
-    })
+    console.log("actionSuccess", action);
+    if (!action.id && action.data.length) {
+        let datareduced = action.data.reduce((res, acc) => {
+            res[acc._id] = acc;
+            return res;
+        }, {});
+        console.log("datareduced", datareduced);
+      state = state.merge(datareduced);
+    } else {
+      state = state.merge({
+        [action.id]: {
+          ...action.data,
+          fetching: false
+        }
+      })
+    }
+    return state;
   }
 }
 

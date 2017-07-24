@@ -16,8 +16,7 @@ let store = createStore(rootReducer, applyMiddleware(
   thunk, // lets us dispatch() functions
   logger // neat middleware that logs actions
 ));
-console.log("store", store.getState().toObject());
-console.log("store", store.dispatch(fetchAccount('56ce5703634d17d06f28538a')));
+console.log("store", store.dispatch(fetchAccount('')));
 
 ReactDOM.render( 
 	<Provider store={store}>
