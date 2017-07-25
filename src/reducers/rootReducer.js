@@ -17,10 +17,7 @@ const ActionsMap = {
   [FETCH_ACCOUNT_START]: function(state, action) {
     if (action.id) {
       state = state.setIn([action.id, 'fetching'], true)
-    } else {
-      state = state.set('fetching', true);
     }
-    console.log("state", state.toObject());
     return state;
   },
   [FETCH_ACCOUNT_ERROR]: function(state, action) {

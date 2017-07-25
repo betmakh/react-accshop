@@ -1,19 +1,13 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import {
-  selectSubreddit,
-  fetchPostsIfNeeded,
-  invalidateSubreddit
-} from '../actions'
-import {fetchPost}
-import Picker from '../components/Picker'
-import Posts from '../components/Posts'
+import {Map} from 'immutable';
+
 
 import { fetchAccount } from "../../actions/actions.js";
 import AccountPreview from "../AccountPreview.jsx";
 
-class AsyncApp extends Component {
+class MainPageContainer extends Component {
   // constructor(props) {
   //   super(props)
   //   this.handleChange = this.handleChange.bind(this)
@@ -21,45 +15,41 @@ class AsyncApp extends Component {
   // }
 
   componentDidMount() {
-    const { dispatch} = this.props
+    const { dispatch} = this.props;
     dispatch(fetchAccount())
   }
 
   render() {
-    const { selectedSubreddit, posts, isFetching, lastUpdated } = this.props
-    return (
-      <div class="row" id="features-row">
+    const { accounts } = this.props;
+    var accsElemetsList = [];
+    accounts.valueSeq().forEach(acc => accsElemetsList.push(<AccountPreview account={acc.toJS()}/>))
 
+
+    // var accsElemetsList = accounts.toArray().map(acc => <AccountPreview account={acc.toObject()}/>)
+    console.log("accounts.toArray()", accounts.toJS());
+    console.log("accounts.ismap", Map.isMap(accounts));
+    return (
+      <div className="row" id="features-row">
+        <div className="container">
+          {accsElemetsList}        
+        </div>
       </div>
     )
   }
 }
 
-AsyncApp.propTypes = {
-  selectedSubreddit: PropTypes.string.isRequired,
-  posts: PropTypes.array.isRequired,
-  isFetching: PropTypes.bool.isRequired,
-  lastUpdated: PropTypes.number,
-  dispatch: PropTypes.func.isRequired
-}
+// MainPageContainer.propTypes = {
+//   selectedSubreddit: PropTypes.string.isRequired,
+//   posts: PropTypes.array.isRequired,
+//   isFetching: PropTypes.bool.isRequired,
+//   lastUpdated: PropTypes.number,
+//   dispatch: PropTypes.func.isRequired
+// }
 
 function mapStateToProps(state) {
-  const { selectedSubreddit, postsBySubreddit } = state
-  const {
-    isFetching,
-    lastUpdated,
-    items: posts
-  } = postsBySubreddit[selectedSubreddit] || {
-    isFetching: true,
-    items: []
-  }
-
   return {
-    selectedSubreddit,
-    posts,
-    isFetching,
-    lastUpdated
+    accounts: state.getIn(['entities', 'accounts'])
   }
 }
 
-export default connect(mapStateToProps)(AsyncApp)
+export default connect(mapStateToProps)(MainPageContainer)

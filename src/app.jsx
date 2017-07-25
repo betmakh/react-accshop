@@ -7,7 +7,7 @@ import thunk from 'redux-thunk';
 
 import rootReducer from "./reducers/rootReducer.js";
 import { fetchAccount } from "./actions/actions.js";
-import AccountComponent from "./components/AccountListItem.jsx";
+import MainPageContainer from "./components/containers/MainPageContainer.jsx";
 import logger from "./middleware/logger.js";
 
 // const loggerMiddleware = createLogger();
@@ -16,11 +16,10 @@ let store = createStore(rootReducer, applyMiddleware(
   thunk, // lets us dispatch() functions
   logger // neat middleware that logs actions
 ));
-console.log("store", store.dispatch(fetchAccount('')));
 
 ReactDOM.render( 
 	<Provider store={store}>
-	 	<AccountComponent />
+	 	<MainPageContainer />
   	</Provider>,
   document.getElementById('root'));
 
