@@ -21,6 +21,7 @@ class MainPageContainer extends Component {
 
   render() {
     const { accounts } = this.props;
+    console.log("accounts", accounts);
     var accsElemetsList = [];
     accounts.valueSeq().forEach(acc => accsElemetsList.push(<AccountPreview key={acc.get('_id')} account={acc.toJS()}/>))
 

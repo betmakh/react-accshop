@@ -7,7 +7,6 @@ import { createBrowserHistory } from 'history'
 import MainPageContainer from "./components/containers/MainPageContainer.jsx";
 
 const browserHistory = createBrowserHistory()
-console.log("browserHistory", browserHistory);
 
 const App = ({ store }) => (
   <Provider store={store}>
