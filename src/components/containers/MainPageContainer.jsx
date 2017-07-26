@@ -22,12 +22,8 @@ class MainPageContainer extends Component {
   render() {
     const { accounts } = this.props;
     var accsElemetsList = [];
-    accounts.valueSeq().forEach(acc => accsElemetsList.push(<AccountPreview account={acc.toJS()}/>))
+    accounts.valueSeq().forEach(acc => accsElemetsList.push(<AccountPreview key={acc.get('_id')} account={acc.toJS()}/>))
 
-
-    // var accsElemetsList = accounts.toArray().map(acc => <AccountPreview account={acc.toObject()}/>)
-    console.log("accounts.toArray()", accounts.toJS());
-    console.log("accounts.ismap", Map.isMap(accounts));
     return (
       <div className="row" id="features-row">
         <div className="container">
