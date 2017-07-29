@@ -1,20 +1,23 @@
-import { Map } from 'immutable';
+import { fromJS } from 'immutable';
 
 import entitiesReducer from './entitiesReducer.js';
 import pagesReducer from './pagesReducer.js';
+import { pages } from '../constants/constants.js';
 
-const initialState = Map({
+const initialState = fromJS({
   entities: {
-    accounts: Map({})
+    accounts: {}
   },
   pages: {
-    mainPage: {
+    [pages.mainPage]: {
+      didInvalidate: false,
       fetching: false,
-      accounts: []
+      data: []
     },
-    accountInfo: {
+    [pages.accountInfo]: {
       fetching: false,
-      accountId: null
+      didInvalidate: false,
+      data: null
     }
   }
 });

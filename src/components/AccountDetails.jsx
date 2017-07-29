@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { fetchAccount } from '../actions/actions.js';
+import { fetchAccount } from '../actions/entitiesActions.js';
 
 // const FilterLink = connect(mapStateToProps, mapDispatchToProps)(AccountComponent);
 

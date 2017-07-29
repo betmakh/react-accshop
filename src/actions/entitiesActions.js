@@ -1,5 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import { urls } from '../constants/constants.js';
+import { startPageFetching, pageFetchingSuccess, pageFetchingFail } from './pagesActions.js';
 
 export const FETCH_ACCOUNT_START = 'FETCH_ACCOUNT_START';
 export const FETCH_ACCOUNT_SUCCESS = 'FETCH_ACCOUNT_SUCCESS';
@@ -51,8 +52,8 @@ export function fetchAccountIfNeeded(id = '') {
 	return (dispatch, getState) => {
 		if (id) {
 			var state = getState();
-			var acc = state.getIn(['entities', 'accounts', 'id']);
-			if (!acc || !acc.get('fetching')) {
+			var acc = state.getIn(['entities', 'accounts', id]);
+			if (!acc) {
 				fetchFunction(dispatch, id);
 			}
 		} else {
@@ -60,3 +61,21 @@ export function fetchAccountIfNeeded(id = '') {
 		}
 	};
 }
+
+export const fetchAccountForPage = (id = '', pageType) => {
+	return dispatch => {
+		dispatch(startPageFetching(pageType));
+		fetch(urls.account + id)
+			.then(
+				resp => resp.json(),
+				error => {
+					dispatch(pageFetchingFail(pageType, error));
+				}
+			)
+			.then(data => {
+				var pageData = id.length ? data._id : data.reduce((res, acc) => res.push(acc._id), []);
+				dispatch(fetchAccountSuccess(id, data));
+				dispatch(pageFetchingSuccess(pageType, pageData));
+			});
+	};
+};

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 import Loader from './Loader.jsx';
 
@@ -33,9 +33,9 @@ class AccountPreview extends React.Component {
 								User: <a href={'/profile/' + (user && user._id)}>{user && user.name}</a>{' '}
 							</li>
 						</ul>
-						<a href={'account/' + _id} className="button icon fa-arrow-circleP-right">
+						<Link to={`/account/${_id}`} className="button icon fa-arrow-circleP-right">
 							Подробнее...
-						</a>
+						</Link>
 					</div>
 				</section>
 			</div>

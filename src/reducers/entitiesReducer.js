@@ -1,10 +1,9 @@
-import { FETCH_ACCOUNT_START, FETCH_ACCOUNT_SUCCESS, FETCH_ACCOUNT_ERROR } from '../actions/actions.js';
+import { FETCH_ACCOUNT_START, FETCH_ACCOUNT_SUCCESS, FETCH_ACCOUNT_ERROR } from '../actions/entitiesActions.js';
 
 import { Map } from 'immutable';
 
 const ActionsMap = {
   [FETCH_ACCOUNT_START]: function(state, action) {
-    console.log('state', state);
     if (action.id) {
       state = state.setIn([action.id, 'fetching'], true);
     }
@@ -25,8 +24,6 @@ const ActionsMap = {
     return state;
   },
   [FETCH_ACCOUNT_SUCCESS]: function(state, action) {
-    console.log('state', state.toJS());
-    console.log('actionSuccess', action);
     if (!action.id && action.data.length) {
       let datareduced = action.data.reduce((res, acc) => {
         res[acc._id] = acc;
@@ -35,10 +32,7 @@ const ActionsMap = {
       state = state.merge(datareduced);
     } else {
       state = state.merge({
-        [action.id]: {
-          ...action.data,
-          fetching: false
-        }
+        [action.id]: action.data
       });
     }
     return state;
@@ -46,8 +40,6 @@ const ActionsMap = {
 };
 
 export default function(state, action) {
-  // state = Map.isMap(state) ? state : Map(state);
-  console.log('stateroot', state);
   var fn = ActionsMap[action.type];
   return fn
     ? state.merge({

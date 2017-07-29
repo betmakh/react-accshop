@@ -3,43 +3,32 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Map } from 'immutable';
 
-import { fetchAccountIfNeeded } from '../../actions/actions.js';
+import { fetchAccountForPage } from '../../actions/entitiesActions.js';
 import AccountDetails from '../AccountDetails.jsx';
 import Loader from '../Loader.jsx';
+import { pages } from '../../constants/constants.js';
+
+const pageType = pages.accountInfo;
 
 class AccountContainer extends Component {
-  // constructor(props) {
-  //   super(props)
-  //   this.handleChange = this.handleChange.bind(this)
-  //   this.handleRefreshClick = this.handleRefreshClick.bind(this)
-  // }
   componentDidMount() {
     const { dispatch, match } = this.props;
-    console.log('this.props', this.props);
-    console.log('fetchAccountIfNeeded', match.params.id);
-    dispatch(fetchAccountIfNeeded(match.params.id));
+    dispatch(fetchAccountForPage(match.params.id, pageType));
   }
 
   render() {
-    const { account } = this.props;
-    console.log('props acc container', this.props);
+    const { account, pageData } = this.props;
+    console.log('pageData', pageData);
     var accsElemetsList = [],
-      renderData = !account || account.get('fetching') ? <Loader /> : <AccountDetails account={account.toJS()} />;
+      renderData = !account || pageData.get('fetching') ? <Loader /> : <AccountDetails account={account.toJS()} />;
 
     return renderData;
   }
 }
 
-// AccountContainer.propTypes = {
-//   selectedSubreddit: PropTypes.string.isRequired,
-//   posts: PropTypes.array.isRequired,
-//   isFetching: PropTypes.bool.isRequired,
-//   lastUpdated: PropTypes.number,
-//   dispatch: PropTypes.func.isRequired
-// }
-
 function mapStateToProps(state, ownProps) {
   return {
+    pageData: state.getIn(['pages', pageType]),
     account: state.getIn(['entities', 'accounts', ownProps.match.params.id])
   };
 }
