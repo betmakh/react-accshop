@@ -51,8 +51,6 @@ const ActionsMap = {
 
 export default function(state, action) {
   state = Map.isMap(state) ? state : Map(state);
-    console.log("state", Map.isMap(state));
-    console.log("stateRootMap", state && state.toJS());
   var fn = ActionsMap[action.type];
   return fn ? state.merge({
     accounts: fn(state.get('accounts'), action)

@@ -12,12 +12,15 @@ const initialState = Map({
     mainPage: {
       fetching: false,
       accounts: []
+    },
+    accountInfo: {
+      fetching: false,
+      accountId: null
     }
   }
 });
 
 export default function(state = initialState, action) {
-    console.log("initioalState", Map.isMap(state.get('entities')));
   return state.merge({
     entities: entitiesReducer(state.get('entities'), action),
     pages: pagesReducer(state.get('pages'), action)

@@ -27,13 +27,32 @@ export function fetchAccountError(id, error) {
 	};
 }
 
+var fetchFunction = function(dispatch, id) {
+	dispatch(fetchAccountStart(id));
+	fetch(urls.account + id).then(resp => resp.json(), error => {
+		dispatch(fetchAccountError(id, error));
+	}).then(data => {
+		dispatch(fetchAccountSuccess(id, data));
+	});
+};
+
 export function fetchAccount(id = '') {
-	return function(dispatch) {
-		dispatch(fetchAccountStart(id));
-		fetch(urls.account + id).then(resp => resp.json(), error => {
-			dispatch(fetchAccountError(id, error));
-		}).then(data => {
-			dispatch(fetchAccountSuccess(id, data));
-		});
+	return (dispatch) => {
+		fetchFunction(dispatch, id);
 	};
+}
+
+export function fetchAccountIfNeeded(id = '') {
+	return (dispatch, getStore) => {
+		if (id) {
+			var state = getState();
+			var acc = state.getIn(['entities', 'accounts', 'id']);
+			if (!acc || !acc.get('fetching')) {
+				fetchFunction(dispatch, id)
+			}
+
+		} else {
+			fetchFunction(dispatch, id)
+		}
+	}
 }

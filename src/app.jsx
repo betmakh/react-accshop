@@ -1,19 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { Router, Route } from 'react-router'
-import { createBrowserHistory } from 'history'
+// import { Router, Route } from 'react-router';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
 
-import MainPageContainer from "./components/containers/MainPageContainer.jsx";
+import MainPageContainer from './components/containers/MainPageContainer.jsx';
 
-const browserHistory = createBrowserHistory()
+const browserHistory = createBrowserHistory();
 
-const App = ({ store }) => (
-  <Provider store={store}>
-    <Router history={browserHistory}>
-      <Route path="/" component={MainPageContainer} />
-    </Router>
-  </Provider>
-)
+const App = ({ store }) =>
+	<Provider store={store}>
+		<BrowserRouter history={browserHistory}>
+			<Switch>
+				<Route exact path="/" component={MainPageContainer} />
+				<Route path="/account/:id" component={MainPageContainer} />
+			</Switch>
+		</BrowserRouter>
+	</Provider>;
 
 export default App;

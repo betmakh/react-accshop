@@ -6,6 +6,7 @@ import {Map} from 'immutable';
 
 import { fetchAccount } from "../../actions/actions.js";
 import AccountPreview from "../AccountPreview.jsx";
+import Loader from "../Loader.jsx";
 
 class MainPageContainer extends Component {
   // constructor(props) {
@@ -23,12 +24,14 @@ class MainPageContainer extends Component {
     const { accounts } = this.props;
     console.log("accounts", accounts);
     var accsElemetsList = [];
-    accounts.valueSeq().forEach(acc => accsElemetsList.push(<AccountPreview key={acc.get('_id')} account={acc.toJS()}/>))
+    if (Map.isMap(accounts)) {
+      accounts.valueSeq().forEach(acc => accsElemetsList.push(<AccountPreview key={acc.get('_id')} account={acc.toJS()}/>))
+    }
 
     return (
       <div className="row" id="features-row">
         <div className="container">
-          {accsElemetsList}        
+          {accsElemetsList.length ? accsElemetsList : Loader}        
         </div>
       </div>
     )
@@ -44,6 +47,7 @@ class MainPageContainer extends Component {
 // }
 
 function mapStateToProps(state) {
+    console.log("state.getIn(['entities', 'accounts'])", state.getIn(['entities', 'accounts']));
   return {
     accounts: state.getIn(['entities', 'accounts'])
   }
