@@ -1,9 +1,9 @@
- import fetch from 'isomorphic-fetch';
-import {urls} from '../constants/constants.js'; 
+import fetch from 'isomorphic-fetch';
+import { urls } from '../constants/constants.js';
 
-export const FETCH_ACCOUNT_START = 'FETCH_ACCOUNT_START'; 
-export const FETCH_ACCOUNT_SUCCESS = 'FETCH_ACCOUNT_SUCCESS'; 
-export const FETCH_ACCOUNT_ERROR = 'FETCH_ACCOUNT_ERROR'; 
+export const FETCH_ACCOUNT_START = 'FETCH_ACCOUNT_START';
+export const FETCH_ACCOUNT_SUCCESS = 'FETCH_ACCOUNT_SUCCESS';
+export const FETCH_ACCOUNT_ERROR = 'FETCH_ACCOUNT_ERROR';
 
 export function fetchAccountStart(id) {
 	return {
@@ -29,30 +29,34 @@ export function fetchAccountError(id, error) {
 
 var fetchFunction = function(dispatch, id) {
 	dispatch(fetchAccountStart(id));
-	fetch(urls.account + id).then(resp => resp.json(), error => {
-		dispatch(fetchAccountError(id, error));
-	}).then(data => {
-		dispatch(fetchAccountSuccess(id, data));
-	});
+	fetch(urls.account + id)
+		.then(
+			resp => resp.json(),
+			error => {
+				dispatch(fetchAccountError(id, error));
+			}
+		)
+		.then(data => {
+			dispatch(fetchAccountSuccess(id, data));
+		});
 };
 
 export function fetchAccount(id = '') {
-	return (dispatch) => {
+	return dispatch => {
 		fetchFunction(dispatch, id);
 	};
 }
 
 export function fetchAccountIfNeeded(id = '') {
-	return (dispatch, getStore) => {
+	return (dispatch, getState) => {
 		if (id) {
 			var state = getState();
 			var acc = state.getIn(['entities', 'accounts', 'id']);
 			if (!acc || !acc.get('fetching')) {
-				fetchFunction(dispatch, id)
+				fetchFunction(dispatch, id);
 			}
-
 		} else {
-			fetchFunction(dispatch, id)
+			fetchFunction(dispatch, id);
 		}
-	}
+	};
 }

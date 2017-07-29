@@ -1,10 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 import Loader from './Loader.jsx';
 
 class AccountPreview extends React.Component {
 	render() {
 		const { user, _id, title, description, price, fetching } = this.props.account;
+		console.log('_id', _id);
 		const clickCallback = this.props.click;
 
 		let AccountMarkup = (
@@ -31,7 +33,7 @@ class AccountPreview extends React.Component {
 								User: <a href={'/profile/' + (user && user._id)}>{user && user.name}</a>{' '}
 							</li>
 						</ul>
-						<a href="product/{_id}" className="button icon fa-arrow-circleP-right">
+						<a href={'account/' + _id} className="button icon fa-arrow-circleP-right">
 							Подробнее...
 						</a>
 					</div>

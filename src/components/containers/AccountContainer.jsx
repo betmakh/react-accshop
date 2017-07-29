@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Map } from 'immutable';
 
-import { fetchAccount } from '../../actions/actions.js';
-import AccountDetail from '../AccountDetail.jsx';
+import { fetchAccountIfNeeded } from '../../actions/actions.js';
+import AccountDetails from '../AccountDetails.jsx';
 import Loader from '../Loader.jsx';
 
 class AccountContainer extends Component {
@@ -14,17 +14,19 @@ class AccountContainer extends Component {
   //   this.handleRefreshClick = this.handleRefreshClick.bind(this)
   // }
   componentDidMount() {
-    const { dispatch, params } = this.props;
-    dispatch(fetchAccountIfNeeded(params.id));
+    const { dispatch, match } = this.props;
+    console.log('this.props', this.props);
+    console.log('fetchAccountIfNeeded', match.params.id);
+    dispatch(fetchAccountIfNeeded(match.params.id));
   }
 
   render() {
     const { account } = this.props;
-    console.log('accounts', accounts);
+    console.log('props acc container', this.props);
     var accsElemetsList = [],
-      loader = <Loader />;
+      renderData = !account || account.get('fetching') ? <Loader /> : <AccountDetails account={account.toJS()} />;
 
-    return <AccountDetail account={account} />;
+    return renderData;
   }
 }
 
@@ -38,7 +40,7 @@ class AccountContainer extends Component {
 
 function mapStateToProps(state, ownProps) {
   return {
-    account: state.getIn(['entities', 'accounts', ownProps.id])
+    account: state.getIn(['entities', 'accounts', ownProps.match.params.id])
   };
 }
 

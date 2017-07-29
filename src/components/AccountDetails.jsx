@@ -1,22 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
 import { connect } from 'react-redux';
+
 import { fetchAccount } from '../actions/actions.js';
-import AccountComponent from './AccountPreview.jsx';
 
-const FilterLink = connect(mapStateToProps, mapDispatchToProps)(AccountComponent);
+// const FilterLink = connect(mapStateToProps, mapDispatchToProps)(AccountComponent);
 
-export default FilterLink;
+// export default FilterLink;
 
-const Link = ({ active, children, onClick }) => {
-  if (active) {
-    return (
-      <span>
-        {children}
-      </span>
-    );
-  }
+const AccountDetails = ({ account }) => {
+  const { title, price, user, description, is_bound_to_phone, is_with_email, acc_id, statistic } = account;
 
   return (
     <div id="content" className="account">
@@ -119,3 +112,5 @@ const Link = ({ active, children, onClick }) => {
     </div>
   );
 };
+
+export default AccountDetails;
