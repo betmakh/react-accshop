@@ -1,8 +1,13 @@
-import { FETCH_ACCOUNT_START, FETCH_ACCOUNT_SUCCESS, FETCH_ACCOUNT_ERROR } from '../actions/entitiesActions.js';
+import {
+  FETCH_ACCOUNT_START,
+  FETCH_ACCOUNT_SUCCESS,
+  FETCH_ACCOUNT_ERROR,
+  FETCH_TANKS_SUCCESS
+} from '../actions/entitiesActions.js';
 
 import { Map } from 'immutable';
 
-const ActionsMap = {
+const AccountActionsMap = {
   [FETCH_ACCOUNT_START]: function(state, action) {
     if (action.id) {
       state = state.setIn([action.id, 'fetching'], true);
@@ -39,11 +44,17 @@ const ActionsMap = {
   }
 };
 
+const TanksActionsMap = {
+  [FETCH_TANKS_SUCCESS]: (state, action) => {
+    return state.merge(action.tanksData);
+  }
+};
+
 export default function(state, action) {
-  var fn = ActionsMap[action.type];
-  return fn
-    ? state.merge({
-        accounts: fn(state.get('accounts'), action)
-      })
-    : state;
+  return state.merge({
+    tanks: TanksActionsMap[action.type] ? TanksActionsMap[action.type](state.get('tanks'), action) : state.get('tanks'),
+    accounts: AccountActionsMap[action.type]
+      ? AccountActionsMap[action.type](state.get('accounts'), action)
+      : state.get('accounts')
+  });
 }

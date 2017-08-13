@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Map } from 'immutable';
 
-import { fetchAccountForPage } from '../../actions/entitiesActions.js';
+import { fetchAccountForPage, fetchTanksData } from '../../actions/entitiesActions.js';
 import AccountDetails from '../AccountDetails.jsx';
 import Loader from '../Loader.jsx';
 import { pages } from '../../constants/constants.js';
@@ -17,10 +17,12 @@ class AccountContainer extends Component {
   }
 
   render() {
-    const { account, pageData } = this.props;
-    console.log('pageData', pageData);
+    const { account, pageData, dispatch } = this.props;
+    if (account) {
+      dispatch(fetchTanksData(account.get('tanks').toJS()));
+    }
     var accsElemetsList = [],
-      renderData = !account || pageData.get('fetching') ? <Loader /> : <AccountDetails account={account.toJS()} />;
+      renderData = pageData.get('fetching') || !account ? <Loader /> : <AccountDetails account={account.toJS()} />;
 
     return renderData;
   }

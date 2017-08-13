@@ -6,7 +6,8 @@ import { pages } from '../constants/constants.js';
 
 const initialState = fromJS({
   entities: {
-    accounts: {}
+    accounts: {},
+    tanks: {}
   },
   pages: {
     [pages.mainPage]: {

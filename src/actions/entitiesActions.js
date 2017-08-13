@@ -1,10 +1,14 @@
 import fetch from 'isomorphic-fetch';
-import { urls } from '../constants/constants.js';
+import { urls, keys } from '../constants/constants.js';
 import { startPageFetching, pageFetchingSuccess, pageFetchingFail } from './pagesActions.js';
+import queryString from 'queryString';
+import { Promise } from 'es6-promise';
 
 export const FETCH_ACCOUNT_START = 'FETCH_ACCOUNT_START';
 export const FETCH_ACCOUNT_SUCCESS = 'FETCH_ACCOUNT_SUCCESS';
 export const FETCH_ACCOUNT_ERROR = 'FETCH_ACCOUNT_ERROR';
+// export const FETCH_TANK_START = 'FETCH_TANK_START';
+export const FETCH_TANKS_SUCCESS = 'FETCH_TANKS_SUCCESS';
 
 export function fetchAccountStart(id) {
 	return {
@@ -28,6 +32,27 @@ export function fetchAccountError(id, error) {
 	};
 }
 
+export const receiveTanksData = tanksData => {
+	return {
+		tanksData,
+		type: FETCH_TANKS_SUCCESS
+	};
+};
+
+export const fetchTanksData = ids => {
+	return dispatch => {
+		return fetch(
+			`${urls.tank}?` +
+				queryString.stringify({
+					tank_id: ids.join(','),
+					application_id: keys.wotAppId
+				})
+		)
+			.then(resp => resp.json(), err => console.warn(err))
+			.then(tanksData => dispatch(receiveTanksData(tanksData.data)));
+	};
+};
+
 var fetchFunction = function(dispatch, id) {
 	dispatch(fetchAccountStart(id));
 	fetch(urls.account + id)
@@ -45,20 +70,6 @@ var fetchFunction = function(dispatch, id) {
 export function fetchAccount(id = '') {
 	return dispatch => {
 		fetchFunction(dispatch, id);
-	};
-}
-
-export function fetchAccountIfNeeded(id = '') {
-	return (dispatch, getState) => {
-		if (id) {
-			var state = getState();
-			var acc = state.getIn(['entities', 'accounts', id]);
-			if (!acc) {
-				fetchFunction(dispatch, id);
-			}
-		} else {
-			fetchFunction(dispatch, id);
-		}
 	};
 }
 
