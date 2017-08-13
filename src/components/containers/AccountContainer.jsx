@@ -17,12 +17,24 @@ class AccountContainer extends Component {
   }
 
   render() {
-    const { account, pageData, dispatch } = this.props;
+    const { account, pageData, dispatch, tanks } = this.props;
+    var tanksFiltered = [];
     if (account) {
-      dispatch(fetchTanksData(account.get('tanks').toJS()));
+      if (tanks.size > 0) {
+        tanks.valueSeq().forEach(tank => {
+          if (account.get('tanks').toJS().indexOf(tank.get('tank_id').toString()) >= 0) {
+            tanksFiltered.push(tank.toJS());
+          }
+        });
+      } else {
+        dispatch(fetchTanksData(account.get('tanks').toJS()));
+      }
     }
     var accsElemetsList = [],
-      renderData = pageData.get('fetching') || !account ? <Loader /> : <AccountDetails account={account.toJS()} />;
+      renderData =
+        pageData.get('fetching') || !account
+          ? <Loader />
+          : <AccountDetails tanks={tanksFiltered} account={account.toJS()} />;
 
     return renderData;
   }
@@ -31,7 +43,8 @@ class AccountContainer extends Component {
 function mapStateToProps(state, ownProps) {
   return {
     pageData: state.getIn(['pages', pageType]),
-    account: state.getIn(['entities', 'accounts', ownProps.match.params.id])
+    account: state.getIn(['entities', 'accounts', ownProps.match.params.id]),
+    tanks: state.getIn(['entities', 'tanks'])
   };
 }
 

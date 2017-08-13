@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import Loader from './Loader.jsx';
 import { fetchAccount } from '../actions/entitiesActions.js';
 
 // const FilterLink = connect(mapStateToProps, mapDispatchToProps)(AccountComponent);
 
 // export default FilterLink;
 
-const AccountDetails = ({ account }) => {
+const AccountDetails = ({ account, tanks }) => {
+  console.log('tanks', tanks);
   const { title, price, user, description, is_bound_to_phone, is_with_email, acc_id, statistic } = account;
 
   return (
@@ -50,7 +52,25 @@ const AccountDetails = ({ account }) => {
               {description}
             </p>
             <div id="tanksList">
-              <div className="loader" />
+              {tanks.length
+                ? <div className="row">
+                    <div className="col-xs-12">
+                      <h3>Ваши танки, товарищ</h3>
+                    </div>
+                    <div className="col-xs-12">
+                      <div className="row" id="tanksList">
+                        {tanks.map(tank =>
+                          <div className="col-md-2 col-sm-3 col-xs-4" key={tank.tank_id}>
+                            <img src={tank.image ? tank.image : '/public/images/noimage.png'} alt="Tank image" />
+                            <h6 className="text-center">
+                              {`${tank.name_i18n} (${tank.nation_i18n})`}
+                            </h6>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                : Loader}
             </div>
             <h3>Информация про аккаунт</h3>
             <table className="default">
