@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Map } from 'immutable';
+import _ from 'lodash';
 
 import { fetchAccountForPage, fetchTanksData } from '../../actions/entitiesActions.js';
 import AccountDetails from '../AccountDetails.jsx';
@@ -18,18 +19,21 @@ class AccountContainer extends Component {
 
   render() {
     const { account, pageData, dispatch, tanks } = this.props;
-    var tanksFiltered = [];
+    var tanksFiltered = [],
+      tanksJS = _.values(tanks.toJS());
+
     if (account) {
-      if (tanks.size > 0) {
-        tanks.valueSeq().forEach(tank => {
-          if (account.get('tanks').toJS().indexOf(tank.get('tank_id').toString()) >= 0) {
-            tanksFiltered.push(tank.toJS());
-          }
-        });
-      } else {
-        dispatch(fetchTanksData(account.get('tanks').toJS()));
+      let tanksIDforAcc = account.get('tanks').toJS();
+      let tantksDiff = _.difference(tanksIDforAcc, tanksJS.map(tank => String(tank.tank_id)));
+      tanksFiltered = tanksJS.reduce(
+        (res, tank) => (!!~tanksIDforAcc.indexOf(tank.tank_id.toString()) ? res.push(tank) && res : res),
+        []
+      );
+      if (tantksDiff.length) {
+        dispatch(fetchTanksData(tantksDiff));
       }
     }
+
     var accsElemetsList = [],
       renderData =
         pageData.get('fetching') || !account

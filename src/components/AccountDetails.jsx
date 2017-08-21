@@ -7,7 +7,7 @@ import { fetchAccount } from '../actions/entitiesActions.js';
 
 // const FilterLink = connect(mapStateToProps, mapDispatchToProps)(AccountComponent);
 
-// export default FilterLink;
+// export default FilterLink;``
 
 const AccountDetails = ({ account, tanks }) => {
   console.log('tanks', tanks);
