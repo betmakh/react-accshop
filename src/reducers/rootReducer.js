@@ -17,6 +17,7 @@ const initialState = fromJS({
     },
     [pages.accountInfo]: {
       fetching: false,
+      tanksFetching: false,
       didInvalidate: false,
       data: null
     }

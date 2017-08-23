@@ -5,10 +5,6 @@ import { connect } from 'react-redux';
 import Loader from './Loader.jsx';
 import { fetchAccount } from '../actions/entitiesActions.js';
 
-// const FilterLink = connect(mapStateToProps, mapDispatchToProps)(AccountComponent);
-
-// export default FilterLink;``
-
 const AccountDetails = ({ account, tanks }) => {
   console.log('tanks', tanks);
   const { title, price, user, description, is_bound_to_phone, is_with_email, acc_id, statistic } = account;

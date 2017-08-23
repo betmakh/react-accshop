@@ -12,7 +12,7 @@ import { pages } from '../../constants/constants.js';
 const pageType = pages.accountInfo;
 
 class AccountContainer extends Component {
-  componentDidMount() {
+  componentWillMount() {
     const { dispatch, match } = this.props;
     dispatch(fetchAccountForPage(match.params.id, pageType));
   }
@@ -22,16 +22,13 @@ class AccountContainer extends Component {
     var tanksFiltered = [],
       tanksJS = _.values(tanks.toJS());
 
-    if (account) {
+    console.log("account.get('tanks')", account && account.get('tanks'));
+    if (account && account.get('tanks').size && tanksJS.length) {
       let tanksIDforAcc = account.get('tanks').toJS();
-      let tantksDiff = _.difference(tanksIDforAcc, tanksJS.map(tank => String(tank.tank_id)));
       tanksFiltered = tanksJS.reduce(
-        (res, tank) => (!!~tanksIDforAcc.indexOf(tank.tank_id.toString()) ? res.push(tank) && res : res),
+        (res, tank) => ~tanksIDforAcc.indexOf(tank.tank_id.toString() ? res.push(tank) && res : res),
         []
       );
-      if (tantksDiff.length) {
-        dispatch(fetchTanksData(tantksDiff));
-      }
     }
 
     var accsElemetsList = [],

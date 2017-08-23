@@ -4,6 +4,7 @@ import { urls } from '../constants/constants.js';
 export const INVALIDATE_PAGE = 'INVALIDATE_PAGE';
 export const START_PAGE_FETCHING = 'START_PAGE_FETCHING';
 export const SUCCESS_PAGE_FETCHING = 'SUCCESS_PAGE_FETCHING';
+export const FETCH_TANK_START = 'FETCH_TANK_START';
 export const FAILURE_PAGE_FETCHING = 'FAILURE_PAGE_FETCHING';
 
 export const didInvalidatePage = pageType => {
@@ -35,3 +36,8 @@ export const pageFetchingFail = (pageType, error) => {
 		error
 	};
 };
+
+export const startTanksFetching = pageType => ({
+	type: FETCH_TANK_START,
+	pageType
+});
