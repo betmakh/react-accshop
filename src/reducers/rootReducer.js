@@ -4,7 +4,7 @@ import entitiesReducer from './entitiesReducer.js';
 import pagesReducer from './pagesReducer.js';
 import { pages } from '../constants/constants.js';
 
-const initialState = fromJS({
+export const initialState = fromJS({
   entities: {
     accounts: {},
     tanks: {}
