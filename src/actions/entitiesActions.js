@@ -116,7 +116,7 @@ export const fetchAccountForPage = (id = '', pageType) => {
 
 				var tanksFiltered = [],
 					state = getState(),
-					tanksJS = _.values(state.getIn(['entities', 'tanks']).toJS());
+					tanksJS = _.values(state.entities.tanks);
 
 				let tanksIDforAcc = data.tanks;
 				let tanksDiff = _.difference(tanksIDforAcc, tanksJS.map(tank => String(tank.tank_id)));
@@ -124,7 +124,7 @@ export const fetchAccountForPage = (id = '', pageType) => {
 					(res, tank) => (!!~tanksIDforAcc.indexOf(tank.tank_id.toString()) ? res.push(tank) && res : res),
 					[]
 				);
-				if (tanksDiff.length && !state.getIn(['pages', pageType]).get('tanksFetching')) {
+				if (tanksDiff.length && !state.pages[pageType]['tanksFetching']) {
 					dispatch(fetchTanksData(tanksDiff, pageType));
 				}
 				var pageData = id.length ? data._id : data.reduce((res, acc) => res.push(acc._id), []);

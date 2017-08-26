@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Map } from 'immutable';
+import _ from 'lodash';
 
 import { fetchAccount } from '../../actions/entitiesActions.js';
 import AccountPreview from '../AccountPreview.jsx';
@@ -23,16 +23,17 @@ class MainPageContainer extends Component {
     const { accounts, pageData } = this.props;
     var accsElemetsList = [];
     var loader = <Loader />;
-    if (accounts.first()) {
-      accounts
-        .valueSeq()
-        .forEach(acc => accsElemetsList.push(<AccountPreview key={acc.get('_id')} account={acc.toJS()} />));
+    if (Object.keys(accounts).length) {
+      accsElemetsList = _.values(accounts).map(acc => <AccountPreview key={acc._id} account={acc} />);
+      // accounts
+      //   .valueSeq()
+      //   .forEach(acc => accsElemetsList.push(<AccountPreview key={acc.get('_id')} account={acc.toJS()} />));
     }
 
     return (
       <div className="row" id="features-row">
         <div className="container">
-          {accsElemetsList.length || pageData.get('fetching') ? accsElemetsList : loader}
+          {accsElemetsList.length || pageData.fetching ? accsElemetsList : loader}
         </div>
       </div>
     );
@@ -49,8 +50,8 @@ class MainPageContainer extends Component {
 
 function mapStateToProps(state) {
   return {
-    pageData: state.getIn(['pages', 'mainPage']),
-    accounts: state.getIn(['entities', 'accounts'])
+    pageData: state.pages.mainPage,
+    accounts: state.entities.accounts
   };
 }
 
