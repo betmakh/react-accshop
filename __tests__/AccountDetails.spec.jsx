@@ -7,12 +7,12 @@ test('Account details renders normal', () => {
 	const component = renderer.create(
 		<AccountDetails
 			account={{
-				user: { email: '6etmah@gmail.com' },
-				_id: '123123asd',
+				user: { email: '6etmah@gmail.com1' },
+				_id: '123DASDASD',
 				title: 'title',
 				description: 'description',
-				price: '12$',
-				acc_id: '123DASDASD',
+				price: 123,
+				acc_id: 123123123,
 				statistic: { battles: 228 }
 			}}
 		/>

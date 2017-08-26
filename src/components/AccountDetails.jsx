@@ -134,10 +134,10 @@ AccountDetails.propTypes = {
     _id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
-    price: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
     is_bound_to_phone: PropTypes.bool,
     is_with_email: PropTypes.bool,
-    acc_id: PropTypes.string.isRequired,
+    acc_id: PropTypes.number.isRequired,
     statistic: PropTypes.object.isRequired
   }).isRequired,
   tanks: PropTypes.array

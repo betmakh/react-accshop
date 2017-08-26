@@ -18,7 +18,7 @@ exports[`Account details renders normal 1`] = `
         <h2
           className="price"
         >
-          12$
+          123
            
           <i
             className="icon fa-usd"
@@ -115,7 +115,7 @@ exports[`Account details renders normal 1`] = `
                 Acc id
               </td>
               <td>
-                123DASDASD
+                123123123
               </td>
             </tr>
           </tbody>

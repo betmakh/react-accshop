@@ -10,8 +10,8 @@ class AccountPreview extends React.Component {
 			user: PropTypes.object.isRequired,
 			_id: PropTypes.string.isRequired,
 			title: PropTypes.string.isRequired,
-			description: PropTypes.string.isRequired,
-			price: PropTypes.string.isRequired,
+			description: PropTypes.string,
+			price: PropTypes.number.isRequired,
 			fetching: PropTypes.bool
 		}).isRequired
 	};
@@ -54,7 +54,7 @@ class AccountPreview extends React.Component {
 
 		return (
 			<div>
-				{fetching ? <Loader /> : AccountMarkup}
+				{AccountMarkup}
 			</div>
 		);
 	}
