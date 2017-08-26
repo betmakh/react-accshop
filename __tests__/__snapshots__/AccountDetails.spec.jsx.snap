@@ -1,0 +1,166 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Account details renders normal 1`] = `
+<div
+  className="account"
+  id="content"
+>
+  <article>
+    <div
+      className="row"
+    >
+      <div
+        className="col-sm-4"
+      >
+        <h2>
+          title
+        </h2>
+        <h2
+          className="price"
+        >
+          12$
+           
+          <i
+            className="icon fa-usd"
+          />
+        </h2>
+        <a
+          href="maito:{user.email}"
+        >
+          Задать вопрос продавцу 
+          <i
+            className="icon fa-question"
+          />
+        </a>
+        <br />
+        <b>
+          Продавец: 
+        </b>
+         
+        <a
+          href="/profile/{user._id}"
+        />
+         
+        <span
+          className="icon fa-star"
+        >
+           23
+        </span>
+        <br />
+        <span
+          className="like"
+        >
+          Like 
+          <i
+            className="icon fa-thumbs-up"
+          />
+           
+        </span>
+        <br />
+        <div
+          className="fb-like"
+          data-action="like"
+          data-href="{share_link}"
+          data-layout="box_count"
+          data-share="true"
+          data-show-faces="true"
+        />
+        <div
+          id="vk_like"
+        />
+        <br />
+        <div
+          id="ok_shareWidget"
+        />
+        <br />
+        <button
+          className="button big buy"
+        >
+          Купить
+        </button>
+      </div>
+      <div
+        className="col-sm-8"
+      >
+        <h3>
+          Краткое описание
+        </h3>
+        <p>
+          description
+        </p>
+        <div
+          id="tanksList"
+        />
+        <h3>
+          Информация про аккаунт
+        </h3>
+        <table
+          className="default"
+        >
+          <tbody>
+            <tr>
+              <td>
+                Привязан к телефону
+              </td>
+              <td />
+            </tr>
+            <tr>
+              <td>
+                Продается с email
+              </td>
+              <td />
+            </tr>
+            <tr>
+              <td>
+                Acc id
+              </td>
+              <td>
+                123DASDASD
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <h3>
+          Статистика
+        </h3>
+        <table
+          className="default"
+        >
+          <tbody>
+            <tr>
+              <td>
+                Боев
+              </td>
+              <td>
+                228
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Процент побед
+              </td>
+              <td />
+            </tr>
+            <tr>
+              <td>
+                Золото
+              </td>
+              <td />
+            </tr>
+            <tr>
+              <td>
+                 
+                <span
+                  className="icon fa-star"
+                />
+                 Опыт
+              </td>
+              <td />
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </article>
+</div>
+`;

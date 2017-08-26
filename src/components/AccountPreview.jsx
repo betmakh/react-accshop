@@ -1,12 +1,23 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import Loader from './Loader.jsx';
 
 class AccountPreview extends React.Component {
+	static propTypes = {
+		account: PropTypes.shape({
+			user: PropTypes.object.isRequired,
+			_id: PropTypes.string.isRequired,
+			title: PropTypes.string.isRequired,
+			description: PropTypes.string.isRequired,
+			price: PropTypes.string.isRequired,
+			fetching: PropTypes.bool
+		}).isRequired
+	};
+
 	render() {
-		const { user, _id, title, description, price, fetching } = this.props.account;
-		console.log('_id', _id);
+		const { user, _id, title, description, price, fetching } = this.props.account || {};
 		const clickCallback = this.props.click;
 
 		let AccountMarkup = (

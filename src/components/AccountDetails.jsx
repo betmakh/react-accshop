@@ -5,8 +5,7 @@ import { connect } from 'react-redux';
 import Loader from './Loader.jsx';
 import { fetchAccount } from '../actions/entitiesActions.js';
 
-const AccountDetails = ({ account, tanks }) => {
-  console.log('tanks', tanks);
+const AccountDetails = ({ account = {}, tanks = [] }) => {
   const { title, price, user, description, is_bound_to_phone, is_with_email, acc_id, statistic } = account;
 
   return (
@@ -127,6 +126,21 @@ const AccountDetails = ({ account, tanks }) => {
       </article>
     </div>
   );
+};
+
+AccountDetails.propTypes = {
+  account: PropTypes.shape({
+    user: PropTypes.object.isRequired,
+    _id: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    price: PropTypes.string.isRequired,
+    is_bound_to_phone: PropTypes.bool,
+    is_with_email: PropTypes.bool,
+    acc_id: PropTypes.string.isRequired,
+    statistic: PropTypes.object.isRequired
+  }).isRequired,
+  tanks: PropTypes.array
 };
 
 export default AccountDetails;
