@@ -1,8 +1,8 @@
-const domain = '';
+const domain = 'http://localhost:8080';
 import keyMirror from 'keyMirror';
 
 export const urls = {
-	account: '/api/accounts/',
+	account: domain + '/api/accounts/',
 	tank: '//api.worldoftanks.ru/wot/encyclopedia/tankinfo/',
 	tanksIdList: '//api.worldoftanks.ru/wot/account/tanks/'
 };

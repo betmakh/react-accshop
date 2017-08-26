@@ -22,11 +22,10 @@ class AccountContainer extends Component {
     var tanksFiltered = [],
       tanksJS = _.values(tanks.toJS());
 
-    console.log("account.get('tanks')", account && account.get('tanks'));
     if (account && account.get('tanks').size && tanksJS.length) {
       let tanksIDforAcc = account.get('tanks').toJS();
       tanksFiltered = tanksJS.reduce(
-        (res, tank) => ~tanksIDforAcc.indexOf(tank.tank_id.toString() ? res.push(tank) && res : res),
+        (res, tank) => (~tanksIDforAcc.indexOf(tank.tank_id.toString()) ? res.push(tank) && res : res),
         []
       );
     }

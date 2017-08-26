@@ -14,7 +14,7 @@ class MainPageContainer extends Component {
   //   this.handleRefreshClick = this.handleRefreshClick.bind(this)
   // }
 
-  componentDidMount() {
+  componentWillMount() {
     const { dispatch } = this.props;
     dispatch(fetchAccount());
   }
