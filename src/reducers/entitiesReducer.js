@@ -42,6 +42,7 @@ const AccountActionsMap = {
       //   [action.id]: action.data
       // });
     }
+    state.__readyForServerRender__ = true;
     return state;
   }
 };

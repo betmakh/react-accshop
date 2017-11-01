@@ -14,9 +14,13 @@ class MainPageContainer extends Component {
   //   this.handleRefreshClick = this.handleRefreshClick.bind(this)
   // }
 
+  static fetchData(dispatch) {
+    return dispatch(fetchAccount());
+  }
+
   componentWillMount() {
     const { dispatch } = this.props;
-    dispatch(fetchAccount());
+    this.constructor.fetchData(dispatch);
   }
 
   render() {
@@ -32,9 +36,7 @@ class MainPageContainer extends Component {
 
     return (
       <div className="row" id="features-row">
-        <div className="container">
-          {accsElemetsList.length || pageData.fetching ? accsElemetsList : loader}
-        </div>
+        <div className="container">{accsElemetsList.length || pageData.fetching ? accsElemetsList : loader}</div>
       </div>
     );
   }

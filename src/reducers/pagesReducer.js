@@ -13,8 +13,14 @@ const functionsMap = {
 		return Object.assign({}, state);
 		// return state.setIn([action.pageType, 'didInvalidate'], true);
 	},
+	[FAILURE_PAGE_FETCHING]: (state, action) => {
+		state[action.pageType]['fetching'] = false;
+		state.__readyForServerRender__ = true;
+		return Object.assign({}, state);
+	},
 	[SUCCESS_PAGE_FETCHING]: (state, action) => {
 		return Object.assign({}, state, {
+			__readyForServerRender__: true,
 			[action.pageType]: {
 				fetching: false,
 				didInvalidate: false,
@@ -44,6 +50,7 @@ const functionsMap = {
 
 export default function(
 	state = {
+		__readyForServerRender__: false,
 		[pages.mainPage]: {
 			didInvalidate: false,
 			fetching: false,

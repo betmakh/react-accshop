@@ -11,9 +11,16 @@ import { pages } from '../../constants/constants.js';
 const pageType = pages.accountInfo;
 
 class AccountContainer extends Component {
+  static fetchData(dispatch, id) {
+    console.log('id', id);
+    console.log('dispatch', dispatch);
+    console.log('pageType', pageType);
+    return dispatch(fetchAccountForPage(id, pageType));
+  }
+
   componentWillMount() {
     const { dispatch, match } = this.props;
-    dispatch(fetchAccountForPage(match.params.id, pageType));
+    this.constructor.fetchData(dispatch, match.params.id);
   }
 
   render() {
