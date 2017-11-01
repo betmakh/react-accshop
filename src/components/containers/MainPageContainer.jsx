@@ -6,6 +6,7 @@ import _ from 'lodash';
 import { fetchAccount } from '../../actions/entitiesActions.js';
 import AccountPreview from '../AccountPreview.jsx';
 import Loader from '../Loader.jsx';
+import Header from '../Header.jsx';
 
 class MainPageContainer extends Component {
   // constructor(props) {
@@ -31,9 +32,10 @@ class MainPageContainer extends Component {
     }
 
     return (
-      <div className="row" id="features-row">
-        <div className="container">
-          {accsElemetsList.length || pageData.fetching ? accsElemetsList : loader}
+      <div>
+        <Header />
+        <div className="row" id="features-row">
+          <div className="container">{accsElemetsList.length || pageData.fetching ? accsElemetsList : loader}</div>
         </div>
       </div>
     );
