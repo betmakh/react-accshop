@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/jest"
+    "test": "./node_modules/.bin/jest",
+    "watcher" : "./node_modules/.bin/webpack"
   },
   "repository": {
     "type": "git",

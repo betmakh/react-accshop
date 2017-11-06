@@ -4,7 +4,8 @@ import keyMirror from 'keyMirror';
 export const urls = {
 	account: domain + '/api/accounts/',
 	tank: '//api.worldoftanks.ru/wot/encyclopedia/tankinfo/',
-	tanksIdList: '//api.worldoftanks.ru/wot/account/tanks/'
+	tanksIdList: '//api.worldoftanks.ru/wot/account/tanks/',
+	wotLogin: 'https://api.worldoftanks.ru/wot/auth/login/'
 };
 
 export const keys = {
@@ -13,5 +14,6 @@ export const keys = {
 
 export const pages = keyMirror({
 	mainPage: null,
-	accountInfo: null
+	accountInfo: null,
+	accountSell:null
 });

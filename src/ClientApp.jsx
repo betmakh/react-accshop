@@ -1,5 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
+import { Router } from 'react-router'
 import { BrowserRouter } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { Provider } from 'react-redux';
@@ -12,9 +13,11 @@ const browserHistory = createBrowserHistory();
 const renderApp = () => {
 	render(
 		<Provider store={store}>
-			<BrowserRouter history={browserHistory}>
-				<App />
-			</BrowserRouter>
+			<Router history={browserHistory}>
+				<BrowserRouter>
+					<App />
+				</BrowserRouter>
+			</Router>
 		</Provider>,
 		document.getElementById('root')
 	);
