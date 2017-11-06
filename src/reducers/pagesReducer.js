@@ -11,7 +11,6 @@ const functionsMap = {
 	[INVALIDATE_PAGE]: (state, action) => {
 		state[action.pageType]['didInvalidate'] = true;
 		return Object.assign({}, state);
-		// return state.setIn([action.pageType, 'didInvalidate'], true);
 	},
 	[SUCCESS_PAGE_FETCHING]: (state, action) => {
 		return Object.assign({}, state, {
@@ -21,24 +20,14 @@ const functionsMap = {
 				data: action.data
 			}
 		});
-		// return state.merge({
-		// 	[action.pageType]: {
-		// 		fetching: false,
-		// 		didInvalidate: false,
-		// 		data: action.data
-		// 	}
-		// });
 	},
 	[START_PAGE_FETCHING]: (state, action) => {
 		state[action.pageType]['fetching'] = true;
 		return Object.assign({}, state);
-		// return state.setIn([action.pageType, 'fetching'], true);
 	},
 	[FETCH_TANK_START]: (state, action) => {
 		state[action.pageType]['tanksFetching'] = true;
 		return Object.assign({}, state);
-		// return state.setIn([action.pageTyp
-		// return state.setIn([action.pageType, 'tanksFetching'], true);
 	}
 };
 
