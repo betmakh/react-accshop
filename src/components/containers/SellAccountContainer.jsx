@@ -17,7 +17,8 @@ class SellAccountContainer extends Component {
 	state = {
       accountAuthorized: false,
       urlData: null,
-      userTanksData: []
+      accountTanksData: null,
+      accountData: null
 	};
 
 	componentWillMount() {
@@ -25,14 +26,16 @@ class SellAccountContainer extends Component {
 		var urlData = queryString.parse(window.location.search);
 		if (urlData.status === 'ok') {
 			this.setState({ accountAuthorized: true, urlData });
-			this.fetchUserData(urlData);
+			this.fetchAccountData(urlData);
 			// dispatch(fetchTanksData(, pageType));
 		}
 	}
 
-	fetchUserData(params = this.state.urlData) {
+	fetchAccountData(params = this.state.urlData) {
     const { dispatch, match } = this.props;
     var self = this;
+
+    // fetch tanks for selling accounts
 		fetch(
 			`${urls.wotUserTanks}?` +
 				queryString.stringify({
@@ -41,14 +44,16 @@ class SellAccountContainer extends Component {
 				})
 		)
 			.then(resp => resp.json(), err => console.warn(err))
-			.then(userTanksData => {
-        if (userTanksData.status === 'ok') {
-          self.setState({userTanksData : userTanksData.data[params.account_id]})
-          dispatch(fetchTanksData(userTanksData.data[params.account_id].map(tank => tank.tank_id), pages.accountSell))
+			.then(accountTanksData => {
+        if (accountTanksData.status === 'ok') {
+          self.setState({accountTanksData : accountTanksData.data[params.account_id]})
+          dispatch(fetchTanksData(accountTanksData.data[params.account_id].map(tank => tank.tank_id), pages.accountSell))
+        } else {
+          self.setState({accountAuthorized: false, accountTanksData : null})
         }
-				console.log('userTanksData', userTanksData);
 			});
 
+    // fetch statistics for selling accounts
 		fetch(
 			`${urls.wotUserInfo}?` +
 				queryString.stringify({
@@ -60,8 +65,13 @@ class SellAccountContainer extends Component {
 				})
 		)
 			.then(resp => resp.json(), err => console.warn(err))
-			.then(userInfoData => {
-				console.log('userInfoData', userInfoData);
+			.then(accountData => {
+        if (accountData.status === 'ok') {
+          self.setState({accountAuthorized: true, accountData: accountData.data[params.account_id]})
+        } else {
+          self.setState({accountAuthorized: false, accountData: null })
+        }
+
 			});
 	}
 
@@ -83,13 +93,13 @@ class SellAccountContainer extends Component {
 
 	render() {
 		const { dispatch, tanks, pageData } = this.props;
-    var userTanksList = this.state.userTanksData.map(tank => tanks[tank.tank_id] ?  _.extend(tanks[tank.tank_id], tank) : null);
+    var userTanksList = this.state.accountTanksData ? this.state.accountTanksData.map(tank => tanks[tank.tank_id] ?  _.extend(tanks[tank.tank_id], tank) : null) : '';
 
 		return (
 			<div className="container">
 				<div className="row">
 					<div className="col-xs-12">
-						{pageData.fetching ? <Loader/> : <AccountEdit onLogin={this.wotLogin} isAccountAuthorized={this.state.accountAuthorized} authData={this.state.urlData} tanksList={userTanksList} />}
+						{pageData.fetching ? <Loader/> : <AccountEdit onLogin={this.wotLogin} isAccountAuthorized={this.state.accountAuthorized} accountData={this.state.accountData} authData={this.state.urlData} tanksList={userTanksList} />}
 					</div>
 				</div>
 			</div>
