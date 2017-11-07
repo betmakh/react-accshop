@@ -5,31 +5,34 @@ import _ from 'lodash';
 import queryString from 'queryString';
 import fetch from 'isomorphic-fetch';
 
-import { urls, keys } from '../../constants/constants.js';
+import { urls, keys, pages } from '../../constants/constants.js';
 import { fetchAccountForPage, fetchTanksData } from '../../actions/entitiesActions.js';
 // import { authAccount } from '../../actions/utilsActions.js';
 import AccountEdit from '../AccountEdit.jsx';
 import Loader from '../Loader.jsx';
-import { pages } from '../../constants/constants.js';
 
-const pageType = pages.accountInfo;
+const pageType = pages.accountSell;
 
 class SellAccountContainer extends Component {
 	state = {
-		accountAuthorized: false
+      accountAuthorized: false,
+      urlData: null,
+      userTanksData: []
 	};
 
 	componentWillMount() {
 		const { dispatch, match } = this.props;
 		var urlData = queryString.parse(window.location.search);
 		if (urlData.status === 'ok') {
-			this.setState({ accountAuthorized: true });
+			this.setState({ accountAuthorized: true, urlData });
 			this.fetchUserData(urlData);
 			// dispatch(fetchTanksData(, pageType));
 		}
 	}
 
-	fetchUserData(params) {
+	fetchUserData(params = this.state.urlData) {
+    const { dispatch, match } = this.props;
+    var self = this;
 		fetch(
 			`${urls.wotUserTanks}?` +
 				queryString.stringify({
@@ -39,12 +42,15 @@ class SellAccountContainer extends Component {
 		)
 			.then(resp => resp.json(), err => console.warn(err))
 			.then(userTanksData => {
+        if (userTanksData.status === 'ok') {
+          self.setState({userTanksData : userTanksData.data[params.account_id]})
+          dispatch(fetchTanksData(userTanksData.data[params.account_id].map(tank => tank.tank_id), pages.accountSell))
+        }
 				console.log('userTanksData', userTanksData);
 			});
 
 		fetch(
-			urls.wotUserInfo +
-				'?' +
+			`${urls.wotUserInfo}?` +
 				queryString.stringify({
 					application_id: keys.wotAppId,
 					account_id: params.account_id,
@@ -76,13 +82,14 @@ class SellAccountContainer extends Component {
 	}
 
 	render() {
-		const { dispatch, match } = this.props;
+		const { dispatch, tanks, pageData } = this.props;
+    var userTanksList = this.state.userTanksData.map(tank => tanks[tank.tank_id] ?  _.extend(tanks[tank.tank_id], tank) : null);
 
 		return (
 			<div className="container">
 				<div className="row">
 					<div className="col-xs-12">
-						<AccountEdit onLogin={this.wotLogin} isAccountAuthorized={this.state.accountAuthorized} />
+						{pageData.fetching ? <Loader/> : <AccountEdit onLogin={this.wotLogin} isAccountAuthorized={this.state.accountAuthorized} authData={this.state.urlData} tanksList={userTanksList} />}
 					</div>
 				</div>
 			</div>
@@ -92,9 +99,8 @@ class SellAccountContainer extends Component {
 
 function mapStateToProps(state, ownProps) {
 	return {
-		pageData: state.pages[pageType],
-		account: state.entities.accounts[ownProps.match.params.id],
-		tanks: state.entities.tanks
+		tanks: state.entities.tanks,
+    pageData: state.pages[pageType]
 	};
 }
 

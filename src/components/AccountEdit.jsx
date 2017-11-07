@@ -2,10 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import TankPreview from './TankPreview.jsx';
 import Loader from './Loader.jsx';
 
-const AccountEdit = (props) => {
+const AccountEdit = ({tanksList = [], onLogin, isAccountAuthorized=false}) => {
     var greeting = "zdorov",description;
+
+    var tanksMarkup = tanksList.length ? tanksList.map(tank => tank ? <TankPreview key={tank.tank_id} tank={tank} /> : '') : '';
 
 	return (          
 		<div>
@@ -32,12 +35,12 @@ const AccountEdit = (props) => {
               </div>  
               <br/>
               <div id="userInfo"></div>
-              <div id="tanks"></div>
+              <div id="tanks">{tanksMarkup}</div>
               <br/>
-              <button className="loginWot" type="button" onClick={props.onLogin}>Login to Wargaming</button>
+              <button className="loginWot" type="button" onClick={onLogin}>Login to Wargaming</button>
               <br/>
               <br/>
-              <button id="proceed" className={"big icon fa-arrow-circle-right" + (props.isAccountAuthorized ? " disabled" : "")}>Продать</button>
+              <button id="proceed" className={"big icon fa-arrow-circle-right" + (isAccountAuthorized ? " disabled" : "")}>Продать</button>
             </form>
         </div>
             )

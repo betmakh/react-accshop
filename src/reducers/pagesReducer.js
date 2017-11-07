@@ -38,6 +38,9 @@ export default function(
 			fetching: false,
 			data: []
 		},
+		[pages.accountSell]: {
+			fetching: false
+		},
 		[pages.accountInfo]: {
 			fetching: false,
 			tanksFetching: false,

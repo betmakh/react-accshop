@@ -1,5 +1,5 @@
 import fetch from 'isomorphic-fetch';
-import { urls, keys } from '../constants/constants.js';
+import { urls, keys, pages } from '../constants/constants.js';
 import { startPageFetching, pageFetchingSuccess, pageFetchingFail, startTanksFetching } from './pagesActions.js';
 import queryString from 'queryString';
 import { Promise } from 'es6-promise';
@@ -38,10 +38,20 @@ export const receiveTanksData = tanksData => {
 	};
 };
 
-export const fetchTanksData = (ids, pageType) => {
-	return dispatch => {
-		dispatch(startTanksFetching(pageType));
-		return fetch(
+export const fetchTanksData = (ids, pageType = pages.accountInfo) => {
+	return (dispatch, getState) => {
+		var tanksFiltered = [],
+			state = getState(),
+			tanksJS = _.values(state.entities.tanks);
+
+		let tanksDiff = _.difference(ids, tanksJS.map(tank => String(tank.tank_id)));
+		tanksFiltered = tanksJS.reduce(
+			(res, tank) => (!!~ids.indexOf(tank.tank_id.toString()) ? res.push(tank) && res : res),
+			[]
+		);
+		if (tanksDiff.length && !state.pages[pageType]['tanksFetching']) {
+			dispatch(startTanksFetching(pageType));
+			return fetch(
 			`${urls.tank}?` +
 				queryString.stringify({
 					tank_id: ids.join(','),
@@ -50,6 +60,10 @@ export const fetchTanksData = (ids, pageType) => {
 		)
 			.then(resp => resp.json(), err => console.warn(err))
 			.then(tanksData => dispatch(receiveTanksData(tanksData.data)));
+		} else {
+			return {};
+		}
+		
 	};
 };
 
@@ -119,14 +133,8 @@ export const fetchAccountForPage = (id = '', pageType) => {
 					tanksJS = _.values(state.entities.tanks);
 
 				let tanksIDforAcc = data.tanks;
-				let tanksDiff = _.difference(tanksIDforAcc, tanksJS.map(tank => String(tank.tank_id)));
-				tanksFiltered = tanksJS.reduce(
-					(res, tank) => (!!~tanksIDforAcc.indexOf(tank.tank_id.toString()) ? res.push(tank) && res : res),
-					[]
-				);
-				if (tanksDiff.length && !state.pages[pageType]['tanksFetching']) {
-					dispatch(fetchTanksData(tanksDiff, pageType));
-				}
+
+				dispatch(fetchTanksData(tanksIDforAcc, pageType));
 				var pageData = id.length ? data._id : data.reduce((res, acc) => res.push(acc._id), []);
 				dispatch(fetchAccountSuccess(id, data));
 				dispatch(pageFetchingSuccess(pageType, pageData));

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import Loader from './Loader.jsx';
 import { fetchAccount } from '../actions/entitiesActions.js';
+import TankPreview from './TankPreview.jsx';
 
 const AccountDetails = ({ account = {}, tanks = [] }) => {
   const { title, price, user, description, is_bound_to_phone, is_with_email, acc_id, statistic } = account;
@@ -54,14 +55,7 @@ const AccountDetails = ({ account = {}, tanks = [] }) => {
                     </div>
                     <div className="col-xs-12">
                       <div className="row" id="tanksList">
-                        {tanks.map(tank =>
-                          <div className="col-md-2 col-sm-3 col-xs-4" key={tank.tank_id}>
-                            <img src={tank.image ? tank.image : '/public/images/noimage.png'} alt="Tank image" />
-                            <h6 className="text-center">
-                              {`${tank.name_i18n} (${tank.nation_i18n})`}
-                            </h6>
-                          </div>
-                        )}
+                        {tanks.map(tank => <TankPreview tank={tank} key={tank.tank_id}/> )}
                       </div>
                     </div>
                   </div>
