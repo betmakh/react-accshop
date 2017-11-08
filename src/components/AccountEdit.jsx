@@ -6,6 +6,7 @@ import TankPreview from './TankPreview.jsx';
 import Loader from './Loader.jsx';
 
 class AccountEdit extends Component {
+
 	state = {
           title: '',
           price: '',
@@ -28,7 +29,11 @@ class AccountEdit extends Component {
 	}
 
 	onFieldChange(e) {
-		this.setState({[e.target.name]: e.target.value});
+		if (e.target.type === 'radio' || e.target.type === 'checkbox') {
+			this.setState({[e.target.name]: e.target.checked});
+		} else {
+			this.setState({[e.target.name]: e.target.value});
+		} 
 	}
 
 	saveAccount(e) {
@@ -53,21 +58,21 @@ class AccountEdit extends Component {
             <form name="account">
               <div className="row">
                 <div className="col-xs-12 col-md-6">
-                  <input type="text" name="title" onChange={this.onFieldChange} placeholder="Заголовок" />
+                  <input type="text" name="title" onChange={this.onFieldChange} value={this.state.title} placeholder="Заголовок" />
                 </div>
                 <div className="col-xs-12 col-md-6">
-                  <input type="text" name="price" onChange={this.onFieldChange} placeholder="Цена($)"/>
+                  <input type="text" name="price" onChange={this.onFieldChange} value={this.state.price} placeholder="price" />
                 </div> 
                 <div className="col-xs-12">
                   <label>
                     Продаю с email
-                    <input type="checkbox" name="isWithEmail" onChange={this.onFieldChange}/>
+                    <input type="checkbox" name="is_with_email" onChange={this.onFieldChange} checked={this.state.is_with_email}/>
                   </label>
                 </div>
               </div>
               <div className="row">
                 <div className="col-xs-12">
-                  <textarea name="description" onChange={this.onFieldChange} placeholder="Краткое описание"></textarea>
+                  <textarea name="description" onChange={this.onFieldChange} value={this.state.description} placeholder="Краткое описание"></textarea>
                 </div>
               </div>  
               <br/>
@@ -87,7 +92,7 @@ class AccountEdit extends Component {
 	                <tr>
 	                  <td>Процент побед</td>
 	                  <td>
-	                    {statistics.win_rate}
+	                    {statistics.win_rate}%
 	                  </td>
 	                </tr>
 	                <tr>
